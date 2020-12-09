@@ -1,0 +1,7 @@
+venv/
+.idea/
+MyStar/config.py
+STATICFILES/
+media/
+log/
+__pycache__/
