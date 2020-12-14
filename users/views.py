@@ -286,6 +286,11 @@ class StarsList(APIView):
                 stars_list[i]['avatar'] = str(ava.image)
             except Avatars.DoesNotExist:
                 stars_list[i]['avatar'] = 'нет фото'
+            try:
+                video = Videos.objects.get(username=stars_list[i]['username'])
+                stars_list[i]['video'] = video.video_hi.url
+            except Videos.DoesNotExist:
+                stars_list[i]['video'] = 'Звезда не загрузила видео приветсвие'
 
         return Response(stars_list, status=status.HTTP_200_OK)
 
