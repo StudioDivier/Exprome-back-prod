@@ -292,17 +292,18 @@ class Stars(Users):
      rating - отсылка к модели Рейтинга
      video_hi - видео приветствие от звезды
     """
-    price = models.DecimalField(name='price', max_digits=9, decimal_places=2)
-    price_another = models.DecimalField(name='price_another', max_digits=9, decimal_places=2)
-    cat_name_id = models.ForeignKey(Categories, to_field='id', on_delete=models.CASCADE)
-    rating = models.IntegerField(name='rating')
-    days = models.CharField(name='days', default='0', max_length=8)
+    price = models.DecimalField(name='price', max_digits=9, decimal_places=2, verbose_name='Ценник')
+    price_another = models.DecimalField(name='price_another', max_digits=9, decimal_places=2, verbose_name='Ценник еще')
+    cat_name_id = models.ForeignKey(Categories, to_field='id', on_delete=models.CASCADE, verbose_name='Категория')
+    rating = models.IntegerField(name='rating', verbose_name='Рейтинг')
+    days = models.CharField(name='days', default='0', max_length=8, verbose_name='Дней выполнения заказа')
     # video_hi = models.FilePathField(name='video_hi', path=settings.VIDEO_ROOT, default='/videos/012155be-4a77-4fdd-adbc-4121c5dceda0.mp4')
-    video_hi = models.ForeignKey(Videos, on_delete=models.CASCADE, blank=True, null=True)
-    profession = models.CharField(name='profession', max_length=32)
+    video_hi = models.ForeignKey(Videos, on_delete=models.CASCADE, blank=True, null=True, verbose_name='Видео-приветсвие')
+    profession = models.CharField(name='profession', max_length=32, verbose_name='Проффесия')
     tags = TaggableManager()
-    description = models.TextField(name='description', max_length=2048)
-    top = models.BooleanField(name="top", default=False)
+    description = models.TextField(name='description', max_length=2048, verbose_name='Описание')
+    top = models.BooleanField(name="top", default=False, verbose_name='Топ10')
+    sorted = models.IntegerField(name='sorted', verbose_name='Сортировка')
 
     class Meta:
         verbose_name = 'Звезда'

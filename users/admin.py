@@ -70,7 +70,7 @@ class StarsAdmin(BaseUserAdmin):
     list_filter = ('rating', 'cat_name_id')
     fieldsets = (
         ('Инфорамция о Звезде',{
-            'fields': (('email', 'username',), ('first_name', 'last_name'), 'phone', 'avatar', 'password', 'is_star', 'top')
+            'fields': (('email', 'username',), ('first_name', 'last_name'), 'phone', 'avatar', 'password', 'is_star', 'top', 'sorted')
         }),
         ('Коммерческая информация', {
             'fields': (('cat_name_id', 'price', 'price_another', 'rating',), 'days','profession' ,'video_hi', ('description',),)
