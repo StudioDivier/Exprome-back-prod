@@ -397,8 +397,9 @@ class FavoriteView(APIView):
                 video = video_set.video_hi.url
             except Videos.DoesNotExist:
                 video = 'нет видео'
-            
+
             json[i]['id'] = json[i]['star_id']
+            json[i]['sorted'] = star_set.sorted
             json[i]['username'] = star_set.username
             json[i]['avatar'] = avatar
             json[i]['price'] = star_set.price

@@ -303,7 +303,7 @@ class Stars(Users):
     tags = TaggableManager()
     description = models.TextField(name='description', max_length=2048, verbose_name='Описание')
     top = models.BooleanField(name="top", default=False, verbose_name='Топ10')
-    sorted = models.IntegerField(name='sorted', verbose_name='Сортировка')
+    sorted = models.IntegerField(name='sorted', verbose_name='Сортировка', blank=True, null=True)
 
     class Meta:
         verbose_name = 'Звезда'
