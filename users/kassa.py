@@ -1,6 +1,8 @@
 from rest_framework.response import Response
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import View
+from django.core.mail import send_mail
+from django.conf import settings
 import uuid
 import logging
 
@@ -13,6 +15,7 @@ from MyStar import config
 from MyStar.config import ID_KASSA, SK_KASSA
 from users.serializers import OrderSerializer
 from users.models import Orders
+from users import models
 from loguru import logger
 
 # config by loguru
@@ -79,6 +82,23 @@ class YandexNotification(APIView):
     permission_classes = [AllowAny]
 
     @logger.catch()
+    def mailing(self, order_id):
+        order = Orders.objects.get(id=order_id)
+        star_q = models.Stars.objects.get(id=order.star_id_id)
+        cust_q = models.Customers.objects.get(id=order.customer_id_id)
+
+        mailer = [star_q.username, cust_q.username]
+
+        SUBJECT = 'EXPROME: Уведомление!'
+        TEXT_MESASGE = 'Уважаемый, {}.' \
+                       'Заказ №{}  на сумму {}. Для {} от звезды {}.'
+
+        for user in mailer:
+            TEXT_MESASGE.format(user, order.id, cust_q.username, star_q.username)
+            send_mail(SUBJECT, TEXT_MESASGE, settings.EMAIL_HOST_USER, [user])
+
+
+    @logger.catch()
     def post(self, request):
         """
         Подтверждение платежа и смена статуса заказа
@@ -92,7 +112,9 @@ class YandexNotification(APIView):
         Payment.capture(payment_id)
 
         order = Orders.objects.get(id=order_id)
-        order.status_order = 3
+        order.status_order = 2
         order.save()
+
+        self.mailing(order_id=order_id)
 
         return Response(status=200)
